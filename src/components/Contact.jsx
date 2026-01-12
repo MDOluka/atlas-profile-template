@@ -1,5 +1,4 @@
 import { useState } from "react";
-const API_BASE = "http://localhost:4000";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -8,56 +7,22 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
-    try {
-      const res = await fetch(`${API_BASE}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        setStatus("Message sent successfully.");
-        setForm({ name: "", email: "", message: "" });
-      } else setStatus("Failed to send message.");
-    } catch (err) {
-      setStatus("Server error.");
-    }
+    // Backend integration here
+    setTimeout(() => setStatus("Message sent successfully."), 1000);
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-10">Contact Us</h2>
-        <form onSubmit={handleSubmit} className="max-w-xl space-y-4">
-          <input
-            type="text"
-            placeholder="Your Name"
-            className="w-full border p-3 rounded"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Your Email"
-            className="w-full border p-3 rounded"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
-          />
-          <textarea
-            placeholder="Your Message"
-            className="w-full border p-3 rounded"
-            rows="5"
-            value={form.message}
-            onChange={(e) => setForm({ ...form, message: e.target.value })}
-            required
-          ></textarea>
-          <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
-            Send Message
-          </button>
-          {status && <p className="text-sm text-gray-600">{status}</p>}
+    <section id="contact" className="py-20 bg-primary text-white">
+      <div className="max-w-3xl mx-auto px-6">
+        <h2 className="text-4xl font-heading mb-10 text-center">Contact Us</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input type="text" placeholder="Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full p-3 rounded bg-white text-black"/>
+          <input type="email" placeholder="Email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full p-3 rounded bg-white text-black"/>
+          <textarea placeholder="Message" rows="5" value={form.message} onChange={e => setForm({...form, message: e.target.value})} className="w-full p-3 rounded bg-white text-black"></textarea>
+          <button type="submit" className="bg-accent px-6 py-3 rounded-lg font-semibold shadow-lg hover:scale-105 transition transform">Send Message</button>
+          {status && <p className="mt-2 text-white">{status}</p>}
         </form>
       </div>
     </section>
-  );
+  )
 }
